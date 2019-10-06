@@ -195,3 +195,25 @@ class BoomerangBlock {
         this.curr.startUpdating(cb)
     }
 }
+
+class Renderer {
+
+    bb : BoomerangBlock = new BoomerangBlock()
+    animator : Animator = new Animator()
+
+    render(context : CanvasRenderingContext2D) {
+        this.bb.draw(context)
+    }
+
+    handleTap(cb : Function) {
+        this.bb.startUpdating(() => {
+            this.animator.start(() => {
+                cb()
+                this.bb.update(() => {
+                    this.animator.stop()
+                    cb()
+                })
+            })
+        })
+    }
+}
