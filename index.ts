@@ -7,6 +7,7 @@ const nodes : number = 5
 const foreColor : string = "#4CAF50"
 const backColor : string = "#BDBDBD"
 const delay : number = 30
+const blockFactor : number = 5
 
 class BoomerangBlockStage {
 
@@ -91,5 +92,37 @@ class ScaleUtil {
 
     static divideScale(scale : number, i : number, n : number) : number {
         return Math.min(1 / n, ScaleUtil.maxScale(scale, i, n)) * n
+    }
+}
+
+class DrawingUtil {
+    static drawLine(context : CanvasRenderingContext2D, x1 : number, y1 : number, x2 : number, y2 : number) {
+        context.beginPath()
+        context.moveTo(x1, y1)
+        context.lineTo(x2, y2)
+        context.stroke()
+    }
+
+    static drawBoomerangBlock(context : CanvasRenderingContext2D, size : number, scale : number) {
+        const x : number = size * Math.sin(Math.PI * scale)
+        const blockSize : number = size / blockFactor
+        DrawingUtil.drawLine(context, 0, 0, x, 0)
+        context.save()
+        context.translate(x, 0)
+        context.fillRect(0, -blockSize / 2, blockSize, blockSize)
+        context.restore()
+    }
+
+    static drawBBNode(context : CanvasRenderingContext2D, i : number, scale : number) {
+        const size : number = w / sizeFactor
+        const gap : number = size / (blockFactor)
+        context.lineCap = 'round'
+        context.lineWidth = Math.min(w, h) / strokeFactor
+        context.strokeStyle = foreColor
+        context.fillStyle = foreColor
+        context.save()
+        context.translate(0, gap * (i + 1))
+        DrawingUtil.drawBoomerangBlock(context, size, scale)
+        context.restore()
     }
 }
