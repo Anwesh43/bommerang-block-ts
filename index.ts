@@ -1,12 +1,12 @@
 const w : number = window.innerWidth
 const h : number = window.innerHeight
-const scGap : number = 0.05
+const scGap : number = 0.01
 const strokeFactor : number = 90
 const sizeFactor : number = 2.9
 const nodes : number = 5
 const foreColor : string = "#4CAF50"
 const backColor : string = "#BDBDBD"
-const delay : number = 30
+const delay : number = 10
 const blockFactor : number = 5
 
 class BoomerangBlockStage {
@@ -188,7 +188,7 @@ class BoomerangBlock {
 
     update(cb : Function) {
         this.curr.update(() => {
-            this.curr.getNext(this.dir, () => {
+            this.curr = this.curr.getNext(this.dir, () => {
                 this.dir *= -1
             })
             cb()
